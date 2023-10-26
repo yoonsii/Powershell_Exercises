@@ -28,4 +28,58 @@ foreach ($am in $actionmatches.matches.value) {
 }
 
 
-$ActionArray
+#$userNameArray
+
+$userHash = @{}
+
+foreach ($un in $userNameArray) {
+	if($userHash.$un -eq $null) {
+		Write-host "NULL"
+		$userHash.$un = 0
+	} else {
+			$userHash.$un++
+	}
+}
+
+$ActionArray.count
+
+<# for(($i = 0); ($i -lt $ActionArray.count); ($i++))
+{
+ 	#$ActionArray[$i]
+	#$UserNameArray[$i] 
+	
+	if($userHash["$UserNameArray[$i]" + "$ActionArray[$i]"] -eq $null)
+	{
+		$userHash["$UserNameArray[$i]" + "$ActionArray[$i]"] = 0
+	} else
+	{
+		$userHash["$UserNameArray[$i]" + "$ActionArray[$i]"]++
+	}
+		
+	
+}	 #>
+
+for ($i = 0; $i -lt $ActionArray.count; $i++) {
+    $action = $ActionArray[$i]
+    $username = $UserNameArray[$i]
+
+    $key = "$username$action"
+
+    if ($userHash[$key] -eq $null) {
+        $userHash[$key] = 1
+    } else {
+        $userHash[$key]++
+    }
+}
+	
+$userHash	
+<# $UserNameArray[1]
+$ActionArray[1]
+ #>
+
+Write-Host "*********"
+
+$hold = 1
+Write-Host "$UserNameArray[$hold]" + "$ActionArray[$hold]"
+
+Write-Host "
