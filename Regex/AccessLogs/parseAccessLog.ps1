@@ -4,9 +4,11 @@ $contents = Get-Content -Path $path
 
 $matches = $contents | Select-String -AllMatches -Pattern "User:[\w]+"
 $actionmatches = $contents | Select-String -AllMatches -Pattern "Action:[\w\s]+"
+$IPmatches = $contents | Select-String -AllMatches -Pattern "IP:[\w\.]+"
 
 $userNameArray = @()
 $ActionArray = @()
+$IPArray = @()
 
 
 #$matches | ForEach-Object {
@@ -27,21 +29,27 @@ foreach ($am in $actionmatches.matches.value) {
 	$ActionArray += (($am -Split ":")[1] -Split " ")[1] 
 }
 
+foreach ($ip in $IPmatches.matches.value) {
+	#$ip
+	$IPArray += ($ip -Split ":")[1] 
+}
 
 #$userNameArray
+#$IPArray
 
 $userHash = @{}
+$ipHash = @{}
 
 foreach ($un in $userNameArray) {
 	if($userHash.$un -eq $null) {
-		Write-host "NULL"
+		#Write-host "NULL"
 		$userHash.$un = 0
 	} else {
 			$userHash.$un++
 	}
 }
 
-$ActionArray.count
+#$ActionArray.count
 
 <# for(($i = 0); ($i -lt $ActionArray.count); ($i++))
 {
@@ -72,7 +80,7 @@ for ($i = 0; $i -lt $ActionArray.count; $i++) {
     }
 }
 	
-$userHash	
+#$userHash	
 <# $UserNameArray[1]
 $ActionArray[1]
  #>
@@ -80,6 +88,23 @@ $ActionArray[1]
 Write-Host "*********"
 
 $hold = 1
-Write-Host "$UserNameArray[$hold]" + "$ActionArray[$hold]"
+#Write-Host "$UserNameArray[$hold]" + "$ActionArray[$hold]"
 
-Write-Host "
+for ($i = 0; $i -lt $IParray.count; $i++) {
+    $action = $ActionArray[$i]
+    $ip = $IParray[$i]
+
+    $key = "$ip$action"
+	if($action -eq "Login")
+	{
+		if ($ipHash[$key] -eq $null) {
+			$ipHash[$key] = 1
+		} else {
+			$ipHash[$key]++
+		}
+	}
+}
+	
+$userHash
+Write-Host "*******************"
+$ipHash
