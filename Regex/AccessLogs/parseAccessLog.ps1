@@ -85,9 +85,7 @@ for ($i = 0; $i -lt $ActionArray.count; $i++) {
 $ActionArray[1]
  #>
 
-Write-Host "*********"
 
-$hold = 1
 #Write-Host "$UserNameArray[$hold]" + "$ActionArray[$hold]"
 
 for ($i = 0; $i -lt $IParray.count; $i++) {
@@ -105,6 +103,30 @@ for ($i = 0; $i -lt $IParray.count; $i++) {
 	}
 }
 	
-$userHash
-Write-Host "*******************"
-$ipHash
+ 
+
+$userNameArray | Sort-Object | Get-Unique | ForEach-Object {
+	Write-Host "User:" $_ "has logged in" $userHash["${_}In"] "times."
+}
+
+Write-Host
+
+$userNameArray | Sort-Object | Get-Unique | ForEach-Object {
+	Write-Host "User:" $_ "has failed to log in" $userHash["${_}Login"] "times."
+}
+
+Write-Host
+
+$maxValue = 0
+$maxKey = $(($IpHash.keys))[0]
+
+foreach ($key in $IpHash.keys) {
+	if ($ipHash[$key] > $maxValue) {
+		$maxValue = $ipHash[$key]
+		$maxKey = $key
+	}
+}
+
+
+Write-Host "The IP Address with the most failed logins is:" $maxKey "with" $IpHash[$maxKey] "failed logins."
+	
