@@ -1,5 +1,5 @@
 # Set the path to the directory where you want to create the dummy files
-$directory = "/Users/yoonsi/Documents/PowerShell-Kata"
+$directory = "/Users/yoonsi/Documents/Projects/Powershell_Exercises/Basics/FileSorting/"
 
 # Create 10 dummy files
 1..10 | ForEach-Object {
